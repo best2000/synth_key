@@ -13,10 +13,11 @@ arr = np.asarray(t.getBuffer())
 
 samplerate = 44100
 
+base_freq = 261.6
 
 def get_piano_notes():
     octave = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j','k','o','l','p',';','[']
-    base_freq = 261.6
+    global base_freq
 
     note_freqs = {octave[i]: base_freq * pow(2, (i / 12)) for i in range(len(octave))}
     note_freqs[''] = 0.0
@@ -70,12 +71,45 @@ is_pressed = False
 
 
 def on_press(key):
+    oc = ""
     try:
-        global keychar
+        global keychar, base_freq
         keychar = key.char
+        if keychar == "0":
+            base_freq = 16.35
+            oc = keychar
+        elif keychar == "1":
+            base_freq = 32.7
+            oc = keychar
+        elif keychar == "2":
+            base_freq = 65.41
+            oc = keychar
+        elif keychar == "3":
+            base_freq = 130.81
+            oc = keychar
+        elif keychar == "4":
+            base_freq = 261.63
+            oc = keychar
+        elif keychar == "5":
+            base_freq = 523.25
+            oc = keychar
+        elif keychar == "6":
+            base_freq = 1046.50
+            oc = keychar
+        elif keychar == "7":
+            base_freq = 2093
+            oc = keychar
+        elif keychar == "8":
+            base_freq = 4186.01
+            oc = keychar
+        elif keychar == "9":
+            base_freq = 8372.019
+            oc = keychar
+
         global is_pressed
         if not is_pressed:
             is_pressed = True
+            print(keychar+" "+oc, end="\r")
             s.start()
     except:
         pass
