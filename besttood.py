@@ -12,8 +12,9 @@ from pyo import *
 import time
 
 s = Server().boot()
-sine = Sine(freq=1500, mul=1).out()
-
 s.start()
+
+sine = Sine(freq=[250, 1000], mul=[1, 1]).out()
+
 time.sleep(2)
 s.stop()

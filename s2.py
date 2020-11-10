@@ -24,13 +24,15 @@ is_pressed = False
 def effect(keychar):
     global w
     if keychar == 'z':  #sin
-
-    elif keychar == 'x':    #supersaw
-        w = SuperSaw(base_freq, bal=0, mul=1).out()
-    elif keychar == 'c':    #triangle
-        w = RCOsc(freq=base_freq, sharp=0, mul=1).out()
-    elif keychar == '/':    #almost square
         w = Sine(freq=base_freq, mul=1).out()
+    elif keychar == 'x':    #Roland JP-8000 Supersaw emulator
+        w = SuperSaw(base_freq, bal=0, mul=1).out()
+    elif keychar == 'c':    #Roland JP-8000  with sideband mixing
+        w = SuperSaw(base_freq, bal=1, mul=1).out()
+    elif keychar == 'v':    #triangle
+        w = RCOsc(freq=base_freq, sharp=0, mul=1).out()
+    elif keychar == 'b':    #almost square
+        w = RCOsc(freq=base_freq, sharp=1, mul=1).out()
 
 def get_piano_notes(keychar):
     global base_freq, sound_keys
