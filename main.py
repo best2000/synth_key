@@ -63,8 +63,10 @@ def main(keychar):
 
 def process():
     data = main(keychar)
-    arr[:] = data
-
+    #arr[:] = data
+    s = Server().boot()
+    s.start()
+    sine = Sine(freq=[400,500], mul=.2).out()
 
 s.setCallback(process)
 is_pressed = False
