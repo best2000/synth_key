@@ -2,18 +2,20 @@ from pynput import keyboard
 from pyo import *
 import multiprocessing
 
-def key_process(keychar, is_pressed, w):
-    s = Server().boot()
-    wave = w
-    s.start()
+def key_process(keychar, is_pressed, s):
+    print("im here!")
 
+    w = Sine(freq=500, mul=1).out()
+    s.start()
     def on_release(key):
         is_pressed[keychar] = False
-        print('release '+keychar)
+        print('release ' + keychar)
         s.stop()
         return False
+
     with keyboard.Listener(on_release=on_release) as listener:
         listener.join()
+
 
 if __name__ == '__main__':
     #setup main variables
@@ -33,6 +35,7 @@ if __name__ == '__main__':
 
     #setup shared resource
     manager = multiprocessing.Manager()
+    wave = manager.dict()
     is_pressed = manager.dict()
     is_pressed['a'] = False
     is_pressed['w'] = False
@@ -73,9 +76,10 @@ if __name__ == '__main__':
     #wave['c'] = SuperSaw(base_freq, bal=1, mul=1)
     #wave['v'] = RCOsc(freq=base_freq, sharp=0, mul=1)
     #wave['b'] = RCOsc(freq=base_freq, sharp=1, mul=1)
-    
+
     #default setup
     base_freq = 261.6
+    s = Server().boot()
     w = Sine(freq=base_freq, mul=1).out()
 
     def effect(keychar):
@@ -107,7 +111,7 @@ if __name__ == '__main__':
                 print(note_freq)
                 w.setFreq(note_freq)
                 #assign to process
-                multiprocessing.Process(target=key_process, args=[keychar, is_pressed, w]).start()
+                multiprocessing.Process(target=key_process, args=[keychar, is_pressed]).start()
             elif keychar in octave_case:
                 base_freq = octave_case[keychar]
                 print(base_freq)
@@ -115,5 +119,5 @@ if __name__ == '__main__':
                 effect(keychar)
 
     # Collect events until released
-    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+    with keyboard.Listener(on_press=on_press) as listener:
         listener.join()
