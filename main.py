@@ -1,5 +1,8 @@
 from pynput import keyboard
 from pyo import *
+import warnings
+
+warnings.filterwarnings('ignore')
 
 #default setup
 base_freq = 261.6
@@ -24,14 +27,19 @@ is_pressed = False
 def effect(keychar):
     global w
     if keychar == 'z':  #sin
+        print("'Sine' effect activated.")
         w = Sine(freq=base_freq, mul=1).out()
     elif keychar == 'x':    #Roland JP-8000 Supersaw emulator
+        print("'Roland JP-8000 Supersaw emulator' effect activated.")
         w = SuperSaw(base_freq, bal=0, mul=1).out()
     elif keychar == 'c':    #Roland JP-8000  with sideband mixing
+        print("'Roland JP-8000 Supersaw emulator with sideband mixing' effect activated.")
         w = SuperSaw(base_freq, bal=1, mul=1).out()
     elif keychar == 'v':    #triangle
+        print("'Triangle' effect activated.")
         w = RCOsc(freq=base_freq, sharp=0, mul=1).out()
     elif keychar == 'b':    #almost square
+        print("'square' effect activated.")
         w = RCOsc(freq=base_freq, sharp=1, mul=1).out()
 
 def get_piano_notes(keychar):
@@ -53,12 +61,12 @@ def on_press(key):
             keychar = key.char
             if keychar in sound_keys:
                 note_freq = get_piano_notes(keychar)
-                print(note_freq)
+                #print(note_freq)
                 w.setFreq(note_freq)
                 s.start()
             elif keychar in octave_case:
                 base_freq = octave_case[keychar]
-                print(base_freq)
+                print('Octave '+keychar+ ' activated.')
             elif keychar in effect_keys:
                 effect(keychar)
 
