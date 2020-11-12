@@ -15,8 +15,9 @@ samplerate = 44100
 
 base_freq = 261.6
 
+
 def get_piano_notes():
-    octave = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j','k','o','l','p',';','[']
+    octave = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l', 'p', ';', '[']
     global base_freq
 
     note_freqs = {octave[i]: base_freq * pow(2, (i / 12)) for i in range(len(octave))}
@@ -63,10 +64,8 @@ def main(keychar):
 
 def process():
     data = main(keychar)
-    #arr[:] = data
-    s = Server().boot()
-    s.start()
-    sine = Sine(freq=[400,500], mul=.2).out()
+    arr[:] = data
+
 
 s.setCallback(process)
 is_pressed = False
@@ -111,7 +110,7 @@ def on_press(key):
         global is_pressed
         if not is_pressed:
             is_pressed = True
-            print(keychar+" "+oc, end="\r")
+            print(keychar + " " + oc, end="\r")
             s.start()
     except:
         pass
